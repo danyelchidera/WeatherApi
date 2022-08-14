@@ -28,14 +28,7 @@ namespace Services
         }
         public async Task<LocationData> GetWeatherDataForLocationAsync(string city)
         {
-            RequestParameters requestParams = new()
-            {
-                Url = _config["OpenWeather:Url"],
-                ApiKey = _config["OpenWeather:ApiKey"],
-                City = city
-            };
-
-            var rootLocation = await _httpService.SendGetAsync<Root>(requestParams);
+            var rootLocation = await RequestForLocationData(city);
             var location = _mapper.Map<LocationData>(rootLocation);
 
             _repository.Location.CreateLocation(location);
@@ -43,9 +36,27 @@ namespace Services
             return location;
         }
 
-        public Task RefreshDbData()
+        public async Task RefreshDbData()
         {
-            throw new NotImplementedException();
+            var locationDatas = await _repository.Location.GetAllLocationsAsync(true);
+            foreach(var locationData in locationDatas)
+            {
+                var newLocationData = await RequestForLocationData(locationData.CityName);
+                _mapper.Map(newLocationData, locationData);
+            }
+            await _repository.SaveAsync();
+        }
+
+        private async Task<Root> RequestForLocationData(string city)
+        {
+            RequestParameters requestParams = new()
+            {
+                Url = _config["OpenWeather:Url"],
+                ApiKey = _config["OpenWeather:ApiKey"],
+                City = city
+            };
+
+            return await _httpService.SendGetAsync<Root>(requestParams);
         }
     }
 }

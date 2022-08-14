@@ -14,6 +14,8 @@ namespace Repository
         : base(repositoryContext)
         {
         }
+
+        public void DeleteMultiple(IEnumerable<WeatherData> weatherDatas) => DeleteRange(weatherDatas);
     }
     
 }

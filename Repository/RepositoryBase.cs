@@ -11,25 +11,32 @@ namespace Repository
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        protected RepositoryContext RepositoryContext;
+        protected RepositoryContext _context;
         public RepositoryBase(RepositoryContext repositoryContext)
-        => RepositoryContext = repositoryContext;
+        => _context = repositoryContext;
+
+        public void Create(T entity)
+        {
+            _context.Set<T>().Add(entity);
+        }
+
+        public void Delete(T entity)
+        {
+            _context.Set<T>().Remove(entity);
+        }
 
         public IQueryable<T> FindAll(bool trackChanges) =>
-        !trackChanges ?
-        RepositoryContext.Set<T>()
-        .AsNoTracking() :
-        RepositoryContext.Set<T>();
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression,
-        bool trackChanges) =>
-        !trackChanges ?
-        RepositoryContext.Set<T>()
-        .Where(expression)
-        .AsNoTracking() :
-        RepositoryContext.Set<T>()
-        .Where(expression);
-        public void Create(T entity) => RepositoryContext.Set<T>().Add(entity);
-        public void Update(T entity) => RepositoryContext.Set<T>().Update(entity);
-        public void Delete(T entity) => RepositoryContext.Set<T>().Remove(entity);
+            !trackChanges ? _context.Set<T>().AsNoTracking() : _context.Set<T>();
+
+
+        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>
+            !trackChanges ? _context.Set<T>().Where(expression).AsNoTracking() : _context.Set<T>().Where(expression);
+
+
+        public void Update(T entity)
+        {
+            _context.Set<T>().Update(entity);
+        }
+        public void DeleteRange(IEnumerable<T> entities) => _context.Set<T>().RemoveRange(entities);
     }
 }

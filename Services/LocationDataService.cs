@@ -23,6 +23,12 @@ namespace Services
             _dataService = dataService;
             _mapper = mapper;
         }
+
+        public async Task Refresh()
+        {
+            await _dataService.RefreshDbData();
+        }
+
         public async Task<LocationDataDto> GetLocationForecast(string city, bool trackChanges)
         {
            var locationData = await _repository.Location.GetLocationAsync(city, trackChanges);

@@ -18,8 +18,14 @@ namespace Repository
 
         public void CreateLocation(LocationData location) => Create(location);
 
-        public async Task<LocationData> GetLocationAsync(string cityName, bool trackChanges) =>
+        public async Task<IEnumerable<LocationData>> GetAllLocationsAsync(bool trackChanges) =>
+            await FindAll(trackChanges)
+            .Include(e => e.WeatherData)
+            .ToListAsync();
+
+        public async Task<LocationData?> GetLocationAsync(string cityName, bool trackChanges) =>
             await FindByCondition(x => x.CityName.ToLower() == cityName.Trim().ToLower(), trackChanges)
-                .FirstOrDefaultAsync();
+            .Include(x => x.WeatherData)
+            .FirstOrDefaultAsync();
     }
 }

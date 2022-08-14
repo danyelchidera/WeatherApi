@@ -36,7 +36,11 @@ namespace WeatherApi.Extensions
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<ILocationDataService, LocationDataService>();
         }
-
+        public static void ConfigureHostedServices(this IServiceCollection services)
+        {
+            services.AddHostedService<BackgroundTask>();
+            services.AddScoped<IDataRefresher, DataRefresher>();
+        }
 
     }
 }

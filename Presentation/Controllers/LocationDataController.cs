@@ -26,5 +26,12 @@ namespace Presentation.Controllers
             var loationData = await _locationDataService.GetLocationForecast(city, false);
             return Ok(loationData);
         }
+
+        [HttpGet("refresh")]
+        public async Task<IActionResult> Delete()
+        {
+           await  _locationDataService.Refresh();
+            return Ok();
+        }
     }
 }
