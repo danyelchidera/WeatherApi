@@ -4,6 +4,7 @@ using System.Net.Http;
 using Utilities.WeatherResponseModel;
 using System.Text.Json;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace Services
 {
@@ -16,7 +17,7 @@ namespace Services
             _httpClient = httpClient;
         }
 
-        public async Task<T> SendGetAsync<T>(RequestParameters request)
+        public async Task<(bool status, string result, HttpStatusCode statusCode)> SendGetAsync(RequestParameters request)
         {
             var client = _httpClient.CreateClient();
 
@@ -28,11 +29,11 @@ namespace Services
             client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response = await client.SendAsync(message);
-            var responseContent = await response.Content.ReadAsStringAsync();
-      
-            var deserialisedResponse = JsonConvert.DeserializeObject<T>(responseContent);
 
-            return deserialisedResponse;
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return (status: response.IsSuccessStatusCode, result: responseContent, statusCode: response.StatusCode);
         }
     }
 }

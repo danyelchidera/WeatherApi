@@ -1,3 +1,4 @@
+using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
 using NLog;
@@ -28,6 +29,9 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+var logger = app.Services.GetRequiredService<ILoggerManager>();
+app.ConfigureExceptionHandler(logger);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -35,7 +39,6 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
     });
-    app.UseDeveloperExceptionPage();
 }
 else
     app.UseHsts();

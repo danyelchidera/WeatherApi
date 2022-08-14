@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Utilities;
@@ -10,6 +11,6 @@ namespace Contracts
 {
     public interface IHttpService
     {
-        Task<T> SendGetAsync<T>(RequestParameters request);
+        Task<(bool status, string result, HttpStatusCode statusCode)> SendGetAsync(RequestParameters request);
     }
 }

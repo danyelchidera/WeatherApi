@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entities;
+using Entities.Exceptions;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +49,7 @@ namespace Services
             await _repository.SaveAsync();
         }
 
-        private async Task<Root> RequestForLocationData(string city)
+        private async Task<Root?> RequestForLocationData(string city)
         {
             RequestParameters requestParams = new()
             {
@@ -55,8 +57,16 @@ namespace Services
                 ApiKey = _config["OpenWeather:ApiKey"],
                 City = city
             };
-
-            return await _httpService.SendGetAsync<Root>(requestParams);
+            var response = await _httpService.SendGetAsync(requestParams);
+            
+            if (!response.status)
+            {
+                var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(response.result);
+                var exception = new OpenWeatherResponseException(errorResponse?.Message ?? "An error occured");
+                exception.Data["StatusCode"] = (int) response.statusCode;
+                throw exception;
+            }
+            return JsonConvert.DeserializeObject<Root>(response.result);
         }
     }
 }
