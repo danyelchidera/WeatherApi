@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using LoggerService;
 using Microsoft.EntityFrameworkCore;
+using PresentationServices.Contracts;
 using Repository;
 using Services;
 
@@ -29,7 +30,13 @@ namespace WeatherApi.Extensions
             services.AddHttpClient<IHttpService, HttpService>();
             services.AddScoped<IHttpService, HttpService>();
         }
-            
+
+        public static void ConfigureContractServices(this IServiceCollection services)
+        {
+            services.AddScoped<IDataService, DataService>();
+            services.AddScoped<ILocationDataService, LocationDataService>();
+        }
+
 
     }
 }

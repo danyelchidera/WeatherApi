@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entities;
+using Utilities.Dtos;
 using Utilities.WeatherResponseModel;
 
 namespace WeatherApi
@@ -8,6 +9,8 @@ namespace WeatherApi
     {
         public WeatherDataMapping()
         {
+            CreateMap<WeatherData, WeatherDataDto>();
+            CreateMap<LocationData, LocationDataDto>();
             CreateMap<string, DateTime>().ConvertUsing(x => DateTime.Parse(x));
 
             CreateMap<ForecastModel, WeatherData>()
@@ -30,7 +33,7 @@ namespace WeatherApi
                 .ForMember(dest => dest.RainValue3h, opt => opt.MapFrom(src => src.Rain.RainValue3h));
 
 
-            CreateMap<Root, Location>()
+            CreateMap<Root, LocationData>()
                 .ForMember(dest => dest.CityName, opt => opt.MapFrom(src => src.City.Name))
                 .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.City.Coord.Lat))
                 .ForMember(dest => dest.Longitude, opt => opt.MapFrom(src => src.City.Coord.Lon))

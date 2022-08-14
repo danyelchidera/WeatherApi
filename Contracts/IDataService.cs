@@ -9,7 +9,7 @@ namespace Contracts
 {
     public interface IDataService
     {
-        Task<Location> GetWeatherDataForLocation(string city);
+        Task<LocationData> GetWeatherDataForLocationAsync(string city);
         Task RefreshDbData();
     }
 }

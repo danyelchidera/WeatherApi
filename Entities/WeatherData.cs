@@ -21,6 +21,6 @@
         public string WeatherDescription { get; set; }
         public double RainValue3h { get; set; }
         public Guid LocationId { get; set; }
-        public Location Location { get; set; }
+        public LocationData Location { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace Services
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<Location> GetWeatherDataForLocation(string city)
+        public async Task<LocationData> GetWeatherDataForLocationAsync(string city)
         {
             RequestParameters requestParams = new()
             {
@@ -36,7 +36,7 @@ namespace Services
             };
 
             var rootLocation = await _httpService.SendGetAsync<Root>(requestParams);
-            var location = _mapper.Map<Location>(rootLocation);
+            var location = _mapper.Map<LocationData>(rootLocation);
 
             _repository.Location.CreateLocation(location);
             await _repository.SaveAsync();

@@ -16,7 +16,7 @@ namespace Repository
         }
 
 
-        public DbSet<Location> Locations { get; set; }
+        public DbSet<LocationData> LocationDatas { get; set; }
         public DbSet<WeatherData> WeatherDatas { get; set; }
     }
 }

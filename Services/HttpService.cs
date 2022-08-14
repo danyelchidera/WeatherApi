@@ -29,7 +29,7 @@ namespace Services
 
             HttpResponseMessage response = await client.SendAsync(message);
             var responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(responseContent);
+      
             var deserialisedResponse = JsonConvert.DeserializeObject<T>(responseContent);
 
             return deserialisedResponse;

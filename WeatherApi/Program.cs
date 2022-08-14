@@ -12,6 +12,7 @@ builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureHttpService();
+builder.Services.ConfigureContractServices();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly); 
