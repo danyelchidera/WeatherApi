@@ -47,7 +47,7 @@ namespace Presentation.Controllers
             var result = await _cityService.StopWeatherUpdateForCity(cityId, false);
             if (!result.Status)
                 return StatusCode(result.StatusCode, new ErrorDetails() { StatusCode = result.StatusCode, Message = result.Message });
-            return NoContent();
+            return NoContent();   
         }
     }
 }
