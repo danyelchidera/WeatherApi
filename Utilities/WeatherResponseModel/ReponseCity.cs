@@ -1,7 +1,8 @@
 ﻿namespace Utilities.WeatherResponseModel
 {
-    public class City
+    public class ReponseCity
     {
+#nullable disable
         public int Id { get; set; }
         public string Name { get; set; }
         public Coord Coord { get; set; }

@@ -15,7 +15,7 @@ namespace Repository
             modelBuilder.ApplyConfiguration(new WeatherDataConfiguration());
         }
 
-        public DbSet<LocationData> LocationDatas { get; set; }
-        public DbSet<WeatherData> WeatherDatas { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<WeatherForecast> WeatherForecasts { get; set; }
     }
 }

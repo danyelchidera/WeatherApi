@@ -2,6 +2,7 @@
 {
     public class Weather
     {
+#nullable disable
         public int Id { get; set; }
         public string Main { get; set; }
         public string Description { get; set; }

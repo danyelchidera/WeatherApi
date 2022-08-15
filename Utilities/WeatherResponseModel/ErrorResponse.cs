@@ -8,7 +8,8 @@ namespace Utilities.WeatherResponseModel
 {
     public class ErrorResponse
     {
-        public string Cod { get; set; }
-        public string Message { get; set; }
+
+        public string? Cod { get; set; }
+        public string? Message { get; set; }
     }
 }

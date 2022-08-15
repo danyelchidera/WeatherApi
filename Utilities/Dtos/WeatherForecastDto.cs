@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Utilities.Dtos
 {
-    public class WeatherDataDto
+    public class WeatherForecastDto
     {
         public Guid Id { get; set; }
         public double TempFeelsLike { get; set; }
@@ -26,7 +26,7 @@ namespace Utilities.Dtos
         public string WeatherMain { get; set; }
         public string WeatherDescription { get; set; }
         public double RainValue3h { get; set; }
-        public Guid LocationId { get; set; }
+        public Guid CityId { get; set; }
         
     }
 }

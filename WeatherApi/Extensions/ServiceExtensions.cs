@@ -34,7 +34,7 @@ namespace WeatherApi.Extensions
         public static void ConfigureContractServices(this IServiceCollection services)
         {
             services.AddScoped<IDataService, DataService>();
-            services.AddScoped<ILocationDataService, LocationDataService>();
+            services.AddScoped<ICityService, CityService>();
         }
         public static void ConfigureHostedServices(this IServiceCollection services)
         {

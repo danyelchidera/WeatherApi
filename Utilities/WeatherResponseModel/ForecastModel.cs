@@ -4,6 +4,7 @@ namespace Utilities.WeatherResponseModel
 {
     public class ForecastModel
     {
+#nullable disable
         public int Dt { get; set; }
         public Main Main { get; set; }
         public List<Weather> Weather { get; set; }

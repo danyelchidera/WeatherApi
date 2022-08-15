@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Repository.Configuration
 {
-    public class WeatherDataConfiguration : IEntityTypeConfiguration<WeatherData>
+    public class WeatherDataConfiguration : IEntityTypeConfiguration<WeatherForecast>
     {
-        public void Configure(EntityTypeBuilder<WeatherData> builder)
+        public void Configure(EntityTypeBuilder<WeatherForecast> builder)
         {
-            builder.HasOne(p => p.Location)
-            .WithMany(b => b.WeatherData)
-            .HasForeignKey(p => p.LocationId);
+            builder.HasOne(p => p.City)
+            .WithMany(b => b.WeatherForecast)
+            .HasForeignKey(p => p.CityId);
         }
     }
 

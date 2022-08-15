@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,10 @@ using Repository;
 namespace WeatherApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20220815074427_renameTables")]
+    partial class renameTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +56,7 @@ namespace WeatherApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("LocationDatas");
                 });
 
             modelBuilder.Entity("Entities.WeatherForecast", b =>
@@ -123,7 +125,7 @@ namespace WeatherApi.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("WeatherForecasts");
+                    b.ToTable("WeatherDatas");
                 });
 
             modelBuilder.Entity("Entities.WeatherForecast", b =>

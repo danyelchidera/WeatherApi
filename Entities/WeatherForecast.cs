@@ -1,6 +1,6 @@
 ﻿namespace Entities
 {
-    public class WeatherData
+    public class WeatherForecast
     {
         public Guid Id { get; set; }
         public double TempFeelsLike { get; set; }
@@ -17,10 +17,10 @@
         public double WindGust { get; set; }
         public int Visibility { get; set; }
         public DateTime Date { get; set; }
-        public string WeatherMain { get; set; }
-        public string WeatherDescription { get; set; }
+        public string? WeatherMain { get; set; }
+        public string? WeatherDescription { get; set; }
         public double RainValue3h { get; set; }
-        public Guid LocationId { get; set; }
-        public LocationData Location { get; set; }
+        public Guid CityId { get; set; }
+        public City? City { get; set; }
     }
 }

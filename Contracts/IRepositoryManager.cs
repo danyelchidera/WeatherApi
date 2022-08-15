@@ -8,8 +8,8 @@ namespace Contracts
 {
     public interface IRepositoryManager
     {
-        ILocationDataRepository Location { get; }
-        IWeatherDataRepository WeatherData { get; }
+        ICityRepository City { get; }
+        IWeatherForecastRepository WeatherForecast { get; }
         Task SaveAsync();
     }
 

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Utilities.Dtos
+namespace Entities
 {
-    public class LocationDataDto
+    public class City
     {
 #nullable disable
         public Guid Id { get; set; }
@@ -18,7 +18,7 @@ namespace Utilities.Dtos
         public int TimeZone { get; set; }
         public int Sunrise { get; set; }
         public int Sunset { get; set; }
-        public ICollection<WeatherDataDto> WeatherData { get; set; }
+        public ICollection<WeatherForecast> WeatherForecast { get; set; }
 
     }
 }

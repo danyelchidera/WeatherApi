@@ -2,7 +2,6 @@
 using Contracts;
 using Entities;
 using Entities.Exceptions;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Utilities;
@@ -13,45 +12,41 @@ namespace Services
     public class DataService : IDataService
     {
         private readonly IHttpService _httpService;
-        private readonly IConfiguration _config;
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
         private readonly ConfigOptions _configOptions;
 
-        public DataService(IHttpService httpService, IConfiguration config, 
+        public DataService(IHttpService httpService, 
             IRepositoryManager repository, IMapper mapper, IOptionsSnapshot<ConfigOptions> configOptions)
         {
             _httpService = httpService;
-            _config = config;
             _repository = repository;
             _mapper = mapper;
             _configOptions = configOptions.Value;
         }
 
-        //gets forecast for 5 days at 3 hours interval for a particular location and saves to db 
-        public async Task<LocationData> GetWeatherDataForLocationAsync(string city)
+        public async Task<City> GetWeatherDataForCityAsync(string city)
         {
-            var rootLocation = await RequestForLocationData(city);
-            var location = _mapper.Map<LocationData>(rootLocation);
+            var rootCity = await RequestForCityData(city);
+            var cityForecast = _mapper.Map<City>(rootCity);
 
-            _repository.Location.CreateLocationData(location);
+            _repository.City.CreateForecastForCity(cityForecast);
             await _repository.SaveAsync();
-            return location;
+            return cityForecast;
         }
 
-        //refreshes data for every city(location) that's been kept track of
         public async Task RefreshDbData()
         {
-            var locationDatas = await _repository.Location.GetAllLocationsAsync(true);
-            foreach(var locationData in locationDatas)
+            var cities = await _repository.City.GetAllCityForecastAsync(true);
+            foreach(var city in cities)
             {
-                var newLocationData = await RequestForLocationData(locationData.CityName);
-                _mapper.Map(newLocationData, locationData);
+                var newCityForecast = await RequestForCityData(city.CityName);
+                _mapper.Map(newCityForecast, city);
             }
             await _repository.SaveAsync();
         }
 
-        private async Task<Root?> RequestForLocationData(string city)
+        private async Task<Root?> RequestForCityData(string city)
         {
             RequestParameters requestParams = new()
             {

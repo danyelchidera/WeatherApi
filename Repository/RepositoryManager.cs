@@ -10,16 +10,17 @@ namespace Repository
     public sealed class RepositoryManager : IRepositoryManager
     {
         private readonly RepositoryContext _repositoryContext;
-        private readonly Lazy<ILocationDataRepository> _locationRepository;
-        private readonly Lazy<IWeatherDataRepository> _weatherDataRepository;
+        private readonly Lazy<ICityRepository> _cityRepository;
+        private readonly Lazy<IWeatherForecastRepository> _weatherForecastRepository;
+
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
-            _locationRepository = new Lazy<ILocationDataRepository>(() => new LocationDataRepository(repositoryContext));
-            _weatherDataRepository = new Lazy<IWeatherDataRepository>(() => new WeatherDataRepository(repositoryContext));
+            _cityRepository = new Lazy<ICityRepository>(() => new CityRepository(repositoryContext));
+            _weatherForecastRepository = new Lazy<IWeatherForecastRepository>(() => new WeatherForecastRepository(repositoryContext));
         }
-        public ILocationDataRepository Location => _locationRepository.Value;
-        public IWeatherDataRepository WeatherData => _weatherDataRepository.Value;
+        public ICityRepository City => _cityRepository.Value;
+        public IWeatherForecastRepository WeatherForecast => _weatherForecastRepository.Value;
         public Task SaveAsync() => _repositoryContext.SaveChangesAsync();
     }
 
