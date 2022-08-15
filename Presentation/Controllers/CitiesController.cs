@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Utilities.Pagination;
 
 namespace Presentation.Controllers
 {
@@ -26,8 +28,23 @@ namespace Presentation.Controllers
         {
             var result = await _cityService.GetCityForecast(city, false);
             if(!result.Status)
-                return StatusCode(result.StatusCode, new ErrorDetails(){StatusCode = result.StatusCode, Message = result.Message});
+                return StatusCode(result.StatusCode, 
+                    new ErrorDetails(){StatusCode = result.StatusCode, Message = result.Message});
             return Ok(result.Data);
+        }
+
+        [HttpGet]
+        public IActionResult GetCities([FromQuery] PagingParameters parameters)
+        {
+            var result = _cityService.GetCitiesForecast(parameters, false);
+
+            if (!result.response.Status)
+                return StatusCode(result.response.StatusCode, 
+                    new ErrorDetails() { StatusCode = result.response.StatusCode, Message = result.response.Message });
+
+            Response.Headers.Add("X-Pagination",JsonSerializer.Serialize(result.metaData));
+
+            return Ok(result.response.Data);
         }
 
         [HttpDelete("stopUpdate/{cityId}")]

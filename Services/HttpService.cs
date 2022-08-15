@@ -17,7 +17,7 @@ namespace Services
             _httpClient = httpClient;
         }
 
-        public async Task<(bool status, string result, HttpStatusCode statusCode)> SendGetAsync(RequestParameters request)
+        public async Task<(bool status, string result, HttpStatusCode statusCode)> SendGetAsync(WeatherDataRequestParams request)
         {
             var client = _httpClient.CreateClient();
 

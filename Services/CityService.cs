@@ -2,6 +2,7 @@
 using Contracts;
 using PresentationServices.Contracts;
 using Utilities.Dtos;
+using Utilities.Pagination;
 
 namespace Services
 {
@@ -17,6 +18,24 @@ namespace Services
             _dataService = dataService;
             _mapper = mapper;
         }
+
+        public (ExecutionResponse<IEnumerable<CityDto>> response, MetaData metaData) GetCitiesForecast(PagingParameters parameters, 
+            bool trackChanges)
+        {
+            var pagedList = _repository.City.GetPagedCityForecastAsync(parameters, trackChanges);
+            var citiesDto = _mapper.Map<IEnumerable<CityDto>>(pagedList);
+
+            var metaData = pagedList.MetaData;
+            var executionResponse = new ExecutionResponse<IEnumerable<CityDto>>()
+            {
+                Status = true,
+                StatusCode = 200,
+                Data = citiesDto
+            };
+
+            return (response: executionResponse, metaData: metaData);
+        }
+        
 
         public async Task<ExecutionResponse<CityDto>> GetCityForecast(string city, bool trackChanges)
         {

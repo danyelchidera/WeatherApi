@@ -48,7 +48,7 @@ namespace Services
 
         private async Task<Root?> RequestForCityData(string city)
         {
-            RequestParameters requestParams = new()
+            WeatherDataRequestParams requestParams = new()
             {
                 Url = _configOptions.Url,
                 ApiKey = _configOptions.ApiKey,

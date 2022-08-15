@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities.Pagination;
 
 namespace Repository
 {
@@ -31,6 +32,15 @@ namespace Repository
             await FindByCondition(x => x.CityName.ToLower() == cityName.Trim().ToLower(), trackChanges)
             .Include(x => x.WeatherForecast)
             .FirstOrDefaultAsync();
+
+        public PagedList<City> GetPagedCityForecastAsync(PagingParameters parameters, bool trackChanges)
+        {
+            var cities = FindAll(trackChanges)
+            .Include(e => e.WeatherForecast)
+            .OrderBy(e => e.CityName);
+
+            return PagedList<City>.ToPagedList(cities, parameters.PageNumber, parameters.PageSize);
+        }
 
         public void RemoveCity(City city) => Delete(city);
     }

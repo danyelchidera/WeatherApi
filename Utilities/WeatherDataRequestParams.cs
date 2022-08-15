@@ -1,6 +1,6 @@
 ﻿namespace Utilities
 {
-    public class RequestParameters
+    public class WeatherDataRequestParams
     {
         public string Url { get; set; }
         public string ApiKey { get; set; }

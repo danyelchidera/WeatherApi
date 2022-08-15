@@ -11,6 +11,6 @@ namespace Contracts
 {
     public interface IHttpService
     {
-        Task<(bool status, string result, HttpStatusCode statusCode)> SendGetAsync(RequestParameters request);
+        Task<(bool status, string result, HttpStatusCode statusCode)> SendGetAsync(WeatherDataRequestParams request);
     }
 }
