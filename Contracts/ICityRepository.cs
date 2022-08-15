@@ -10,7 +10,7 @@ namespace Contracts
 {
     public interface ICityRepository
     {
-        void CreateForecastForCity(City location);
+        void CreateForecastForCity(City city);
         Task<City?> GetCityForecastAsync(string cityName, bool trackChanges);
         Task<City?> GetCityByIdAsync(Guid id, bool trackChanges);
         PagedList<City> GetPagedCityForecastAsync(PagingParameters parameters, bool trackChanges);
