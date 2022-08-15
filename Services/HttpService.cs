@@ -29,8 +29,6 @@ namespace Services
             client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response = await client.SendAsync(message);
-
-
             var responseContent = await response.Content.ReadAsStringAsync();
 
             return (status: response.IsSuccessStatusCode, result: responseContent, statusCode: response.StatusCode);

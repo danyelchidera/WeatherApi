@@ -20,7 +20,6 @@ namespace Repository
         }
         public ILocationDataRepository Location => _locationRepository.Value;
         public IWeatherDataRepository WeatherData => _weatherDataRepository.Value;
-
         public Task SaveAsync() => _repositoryContext.SaveChangesAsync();
     }
 

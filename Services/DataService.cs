@@ -3,12 +3,8 @@ using Contracts;
 using Entities;
 using Entities.Exceptions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Utilities;
 using Utilities.WeatherResponseModel;
 
@@ -20,24 +16,30 @@ namespace Services
         private readonly IConfiguration _config;
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
+        private readonly ConfigOptions _configOptions;
 
-        public DataService(IHttpService httpService, IConfiguration config, IRepositoryManager repository, IMapper mapper)
+        public DataService(IHttpService httpService, IConfiguration config, 
+            IRepositoryManager repository, IMapper mapper, IOptionsSnapshot<ConfigOptions> configOptions)
         {
             _httpService = httpService;
             _config = config;
             _repository = repository;
             _mapper = mapper;
+            _configOptions = configOptions.Value;
         }
+
+        //gets forecast for 5 days at 3 hours interval for a particular location and saves to db 
         public async Task<LocationData> GetWeatherDataForLocationAsync(string city)
         {
             var rootLocation = await RequestForLocationData(city);
             var location = _mapper.Map<LocationData>(rootLocation);
 
-            _repository.Location.CreateLocation(location);
+            _repository.Location.CreateLocationData(location);
             await _repository.SaveAsync();
             return location;
         }
 
+        //refreshes data for every city(location) that's been kept track of
         public async Task RefreshDbData()
         {
             var locationDatas = await _repository.Location.GetAllLocationsAsync(true);
@@ -53,8 +55,8 @@ namespace Services
         {
             RequestParameters requestParams = new()
             {
-                Url = _config["OpenWeather:Url"],
-                ApiKey = _config["OpenWeather:ApiKey"],
+                Url = _configOptions.Url,
+                ApiKey = _configOptions.ApiKey,
                 City = city
             };
             var response = await _httpService.SendGetAsync(requestParams);

@@ -16,7 +16,7 @@ namespace Repository
         {
         }
 
-        public void CreateLocation(LocationData location) => Create(location);
+        public void CreateLocationData(LocationData location) => Create(location);
 
         public async Task<IEnumerable<LocationData>> GetAllLocationsAsync(bool trackChanges) =>
             await FindAll(trackChanges)

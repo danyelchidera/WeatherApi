@@ -23,15 +23,10 @@ namespace Presentation.Controllers
         [HttpGet("{city}")]
         public async Task<IActionResult> GetForecastForCity(string city)
         {
-            var loationData = await _locationDataService.GetLocationForecast(city, false);
-            return Ok(loationData);
-        }
-
-        [HttpGet("refresh")]
-        public async Task<IActionResult> Delete()
-        {
-           await  _locationDataService.Refresh();
-            return Ok();
+            var result = await _locationDataService.GetLocationForecast(city, false);
+            if(!result.Status)
+                return StatusCode(result.StatusCode, new {Status = result.Status, Message = result.Message});
+            return Ok(result.Data);
         }
     }
 }

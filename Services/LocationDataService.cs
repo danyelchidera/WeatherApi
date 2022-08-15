@@ -24,12 +24,10 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task Refresh()
-        {
-            await _dataService.RefreshDbData();
-        }
-
-        public async Task<LocationDataDto> GetLocationForecast(string city, bool trackChanges)
+        //checks first for data for a particular city in the database, if its not there, it gets it and saves it to db.
+        //this way the user(s) can store weather data for cities they want to keep track of and have those data refresh
+        //every 15mins
+        public async Task<ExecutionResponse<LocationDataDto>> GetLocationForecast(string city, bool trackChanges)
         {
            var locationData = await _repository.Location.GetLocationAsync(city, trackChanges);
 
@@ -38,7 +36,12 @@ namespace Services
             
             var locationDataDto = _mapper.Map<LocationDataDto>(locationData);
 
-            return locationDataDto;
+            return new ExecutionResponse<LocationDataDto>()
+            {
+                Status = true,
+                StatusCode = 200,
+                Data = locationDataDto
+            };
         }
     }
 }

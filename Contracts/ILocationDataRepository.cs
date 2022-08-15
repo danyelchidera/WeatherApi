@@ -9,7 +9,7 @@ namespace Contracts
 {
     public interface ILocationDataRepository
     {
-        void CreateLocation(LocationData location);
+        void CreateLocationData(LocationData location);
         Task<LocationData?> GetLocationAsync(string cityName, bool trackChanges);
         Task<IEnumerable<LocationData>> GetAllLocationsAsync(bool trackChanges);
     }

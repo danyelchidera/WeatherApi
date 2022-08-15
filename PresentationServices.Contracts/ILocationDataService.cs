@@ -5,7 +5,6 @@ namespace PresentationServices.Contracts
 {
     public interface ILocationDataService
     {
-        Task<LocationDataDto> GetLocationForecast(string city, bool trackChanges);
-        Task Refresh();
+        Task<ExecutionResponse<LocationDataDto>> GetLocationForecast(string city, bool trackChanges);
     }
 }

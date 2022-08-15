@@ -2,12 +2,14 @@ using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
 using NLog;
+using Utilities;
 using WeatherApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
 
 // Add services to the container,
+builder.Services.Configure<ConfigOptions>(builder.Configuration.GetSection("OpenWeather"));
 builder.Services.ConfigureHostedServices();
 builder.Services.ConfigureCors();
 builder.Services.ConfigureLoggerService();
@@ -17,8 +19,8 @@ builder.Services.ConfigureHttpService();
 builder.Services.ConfigureContractServices();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers()
-    .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly); 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
